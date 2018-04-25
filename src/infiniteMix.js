@@ -1,7 +1,6 @@
 export default {
   props: {
     items: Array,
-    initNum: Number,
     containerHeight: Number,
     itemHeight: Number,
     blockFactor: {
@@ -10,7 +9,7 @@ export default {
     },
     extendFactor: {
       type: Number,
-      default: 1.5
+      default: 1
     },
     hasLoading: {
       type: Boolean,
@@ -19,30 +18,26 @@ export default {
     finished: {
       type: Boolean,
       default: false
+    },
+    loading: {
+      type: Boolean,
+      default: false
     }
   },
   data () {
     return {
-      activeItems: this.items.slice(0, this.initNum),
+      activeItems: [],
       scrollTimeout: null,
       isScrolling: false,
       topBufferStyle: {
-        width: '100%',
         height: 0
       },
       bottomBufferStyle: {
-        width: '100%',
         height: 0
-      },
-      needLoad: false
+      }
     }
   },
   watch: {
-    needLoad (n) {
-      if (n) {
-        this.$emit('onInfiniteLoad')
-      }
-    },
     items () {
       this.computeDisplayItems()
     },
@@ -55,7 +50,7 @@ export default {
   },
   computed: {
     showLoading () {
-      return this.hasLoading && !this.finished && parseInt(this.bottomBufferStyle.height) === 0
+      return this.loading && parseInt(this.bottomBufferStyle.height) === 0
     },
     blockSize () {
       return this.containerHeight * this.blockFactor
@@ -111,16 +106,13 @@ export default {
       const nonZeroIndex = Math.ceil(apertureBottom / this.itemHeight)
       const displayIndexEnd = nonZeroIndex > 0 ? nonZeroIndex - 1 : nonZeroIndex
 
-      this.topBufferStyle = {
-        width: '100%',
-        height: displayIndexStart * this.itemHeight + 'px'
-      }
-      this.bottomBufferStyle = {
-        width: '100%',
-        height: Math.max(0, (this.items.length - displayIndexEnd - 1) * this.itemHeight) + 'px'
-      }
       this.activeItems = this.items.slice(displayIndexStart, displayIndexEnd + 1)
-      this.needLoad = !this.finished && displayIndexEnd + 1 >= this.items.length
+      this.topBufferStyle.height = displayIndexStart * this.itemHeight + 'px'
+      this.bottomBufferStyle.height = Math.max(0, (this.items.length - displayIndexEnd - 1) * this.itemHeight) + 'px'
+
+      if (displayIndexEnd + 1 >= this.items.length && !this.loading) {
+        this.$emit('onInfiniteLoad')
+      }
     }
   }
 }

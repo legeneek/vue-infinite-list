@@ -1,12 +1,14 @@
 <template>
   <div id="app">
-    <infinite-list :container-height="containerHeight" :item-height="itemHeight" :items="items"  :init-num="10" has-loading @onInfiniteLoad="load()" :finished="finished">
+    <infinite-list :container-height="containerHeight" :item-height="itemHeight" :items="items" @onInfiniteLoad="load()" :loading="loading">
     </infinite-list>
   </div>
 </template>
 
 <script>
   import InfiniteList from './InfiniteList.vue'
+
+  let base = 1
 
   export default {
     name: 'app',
@@ -16,32 +18,28 @@
     data () {
       return {
         items: [],
-        containerHeight: 400,
+        containerHeight: 600,
         itemHeight: 100,
-        base: 1,
-        finished: false
+        loading: false
       }
     },
     created () {
-      for (let i = 0; i < 11; ++i) {
-        this.items.push(this.base++)
-      }
-    },
-    watch: {
-      items(n) {
-        if (n.length > 60) {
-          this.finished = true
-        }
-      }
+      this.load()
     },
     methods: {
       load () {
         const me = this
-        setTimeout(function() {
-          for (let i = 0; i < 10; ++i) {
-            me.items.push(me.base++)
+        this.loading = true
+
+        setTimeout(function(){
+          for (let i = 0; i < 20; ++i) {
+            me.items.push({id: base++})
           }
-        }, 1000)
+          me.loading = false
+        }, 200)
+      },
+      onload () {
+        this.load()
       }
     }
   }

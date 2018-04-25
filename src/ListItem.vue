@@ -1,34 +1,18 @@
 <template>
-  <div class="list-item" :style="getStyle()">{{data}}</div>
+  <div class="list-item">
+    <div class="index">{{data.id}}</div>
+  </div>
 </template>
 
 <script>
-  function getRandomColor () {
-    const hex = '0123456789ABCEDF'
-    let color = '#FF'
-    for (let i = 0; i < 4; ++i) {
-      color += hex[Math.floor(Math.random() * 16)]
-    }
-    return color
-  }
-
   export default {
     props: {
-      data: {}
+      data: {
+        type: Object
+      }
     },
     data() {
       return {
-      }
-    },
-    mounted() {
-    },
-    updated() {
-    },
-    methods: {
-      getStyle() {
-        return {
-          backgroundColor: getRandomColor()
-        }
       }
     }
   }
@@ -36,11 +20,22 @@
 
 <style>
   .list-item {
+    box-sizing: border-box;
     height: 100px;
-    width: 200px;
     line-height: 100px;
     font-size: 20px;
     text-align: center;
-    color: #fff;
+    padding-bottom: 10px;
+  }
+  .list-item .index {
+    width: 20%;
+    text-align: center;
+    float: left;
+  }
+  .list-item  .cover {
+    display: block;
+    width: 80%;
+    height: 100%;
+    float: left;
   }
 </style>
