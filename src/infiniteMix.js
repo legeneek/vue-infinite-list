@@ -34,7 +34,9 @@ export default {
       },
       bottomBufferStyle: {
         height: 0
-      }
+      },
+      preStart: 0,
+      preEnd: 0
     }
   },
   watch: {
@@ -100,12 +102,16 @@ export default {
         blockStart = this.blockSize * blockNumber,
         blockEnd = blockStart + this.blockSize,
         apertureTop = Math.max(0, blockStart - this.preloadSize),
-        apertureBottom = Math.min(this.totalScrollableHeight, blockEnd + this.preloadSize)
+        apertureBottom = Math.min(this.totalScrollableHeight, blockEnd + this.preloadSize),
+        displayIndexStart = Math.floor(apertureTop / this.itemHeight),
+        nonZeroIndex = Math.ceil(apertureBottom / this.itemHeight),
+        displayIndexEnd = nonZeroIndex > 0 ? nonZeroIndex - 1 : nonZeroIndex
 
-      const displayIndexStart = Math.floor(apertureTop / this.itemHeight)
-      const nonZeroIndex = Math.ceil(apertureBottom / this.itemHeight)
-      const displayIndexEnd = nonZeroIndex > 0 ? nonZeroIndex - 1 : nonZeroIndex
-
+      if (displayIndexStart === this.preStart && displayIndexEnd === this.preEnd) {
+        return
+      }
+      this.preStart = displayIndexStart
+      this.preEnd = displayIndexEnd
       this.activeItems = this.items.slice(displayIndexStart, displayIndexEnd + 1)
       this.topBufferStyle.height = displayIndexStart * this.itemHeight + 'px'
       this.bottomBufferStyle.height = Math.max(0, (this.items.length - displayIndexEnd - 1) * this.itemHeight) + 'px'
