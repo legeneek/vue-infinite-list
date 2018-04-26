@@ -1,14 +1,14 @@
 # vue-infinite-list
 infinite list
 
-##Installation
+## Installation
 ```
 npm i vue-infinite-list
 ```
 
-##Basic Use
+## Basic Use
 
-###create a helper component
+### create a helper component
 
 import your custom list item component(ListItem) and your custom spinner component(LoadSpinner).
 import the mixin file you installed.
@@ -53,34 +53,34 @@ make sure the key for 'v-for' is unique.
 </script>
 ```
 
-###use helper component 
+### use helper component 
 
 ```vue
 <helper-comp :container-height="containerHeight" :item-height="itemHeight" :items="items" blockFactor='0.5' extendFactor="1" @onInfiniteLoad="load()" :loading="loading">
     </helper-comp>
 ```
 
-##Configuration
+## Configuration
 
-###containerHeight
+### containerHeight
 the height of the list container
 
-###itemHeight
+### itemHeight
 the height of the item
 
-###items
+### items
 array of list items
 
-###blockFactor
+### blockFactor
 the list is split to many blocks of the same height(blockFactor * containerHeight)
 
-###extendFactor
+### extendFactor
 the extra height(extendFactor * containerHeight) should render
 
-###loading
+### loading
 the loading status
 
-##Event
+## Event
 
-###onInfiniteLoad
+### onInfiniteLoad
 notify the parent component to load more list items
