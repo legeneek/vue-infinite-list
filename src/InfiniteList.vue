@@ -1,6 +1,6 @@
 <template>
   <div :style="containerStyle" @scroll.self="handlerScroll()">
-    <div :style="scrollableStyle">
+    <div>
       <div :style="topBufferStyle"></div>
       <list-item v-for="item in activeItems" :key="getItemKey()" :data="item"></list-item>
       <load-spinner v-show="showLoading"></load-spinner>

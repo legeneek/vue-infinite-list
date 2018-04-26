@@ -15,10 +15,6 @@ export default {
       type: Boolean,
       default: false
     },
-    finished: {
-      type: Boolean,
-      default: false
-    },
     loading: {
       type: Boolean,
       default: false
@@ -70,31 +66,14 @@ export default {
         overflowY: 'scroll',
         webkitOverflowScrolling: 'touch'
       }
-    },
-    scrollableStyle () {
-      return this.isScrolling ? { pointerEvents: 'none' } : ''
-    },
+    }
   },
   mounted() {
     this.computeDisplayItems()
   },
   methods: {
     handlerScroll () {
-      this.timeoutScroll()
       this.computeDisplayItems()
-    },
-    timeoutScroll () {
-      if (this.scrollTimeout) {
-        clearTimeout(this.scrollTimeout);
-      }
-
-      const that = this
-      this.scrollTimeout = setTimeout(() => {
-        that.isScrolling = false
-        that.scrollTimeout = null
-      }, 150);
-
-      this.isScrolling = true
     },
     computeDisplayItems () {
       const scrollTop = this.$el.scrollTop || 0
