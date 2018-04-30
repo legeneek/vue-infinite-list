@@ -1,6 +1,6 @@
 <template>
   <div class="list-item">
-    <div class="index">{{data.id}}</div>
+    <div class="index">{{'list item ' + data.id}}</div>
   </div>
 </template>
 
@@ -23,19 +23,11 @@
     box-sizing: border-box;
     height: 100px;
     line-height: 100px;
-    font-size: 20px;
     text-align: center;
     padding-bottom: 10px;
+    border-bottom: 1px solid #ddd;
   }
   .list-item .index {
-    width: 20%;
     text-align: center;
-    float: left;
-  }
-  .list-item  .cover {
-    display: block;
-    width: 80%;
-    height: 100%;
-    float: left;
   }
 </style>

@@ -24,7 +24,6 @@ export default {
     return {
       activeItems: [],
       scrollTimeout: null,
-      isScrolling: false,
       topBufferStyle: {
         height: 0
       },

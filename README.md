@@ -1,5 +1,5 @@
 # vue-infinite-list
-infinite list
+infinite list based on vue2
 
 ## Installation
 ```
