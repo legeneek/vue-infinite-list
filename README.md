@@ -1,5 +1,5 @@
 # vue-infinite-list
-infinite list based on vue2
+infinite list based on vue2. check the [demo](https://legeneek.github.io/vue-infinite-list/index.html)
 
 ## Installation
 ```
