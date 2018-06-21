@@ -20,7 +20,7 @@ make sure the key for 'v-for' is unique.
   <div :style="containerStyle" @scroll.self="handlerScroll()">
     <div>
       <div :style="topBufferStyle"></div>
-      <list-item v-for="item in activeItems" :key="getItemKey()" :data="item"></list-item>
+      <list-item v-for="item in activeItems" :key="item.id" :data="item"></list-item>
       <load-spinner v-show="showLoading"></load-spinner>
       <div :style="bottomBufferStyle"></div>
     </div>
@@ -32,8 +32,6 @@ make sure the key for 'v-for' is unique.
   import LoadSpinner from './LoadSpinner.vue'
   import infiniteMix from 'vue-infinite-list'
 
-  let baseKey = 1
-
   export default {
     components: {
       ListItem,
@@ -42,11 +40,6 @@ make sure the key for 'v-for' is unique.
     mixins: [infiniteMix],
     data () {
       return {
-      }
-    },
-    methods: {
-      getItemKey () {
-        return baseKey++
       }
     }
   }
