@@ -74,6 +74,24 @@ export default {
     handlerScroll () {
       this.computeDisplayItems()
     },
+    equalArrays (arrayA, arrayB) {
+      if ((!!arrayA && !arrayB) || (!arrayA && !! arrayB)) {
+        return false
+      }
+      if(arrayA.length !== arrayB.length) {
+        return
+      }
+      for (let i = 0, l = arrayA.length; i < l; i++) {
+        if (arrayA[i] instanceof Array && arrayB[i] instanceof Array) {
+          if (!this.equalArrays(arrayA[i], arrayB[i]))
+            return false;
+        }
+        else if (arrayA[i] != array[i]) {
+          return false;
+        }
+      }
+      return true;
+    },
     computeDisplayItems () {
       const scrollTop = this.$el.scrollTop || 0
       const blockNumber = this.blockSize === 0 ? 0 : Math.floor(scrollTop / this.blockSize),
@@ -83,14 +101,19 @@ export default {
         apertureBottom = Math.min(this.totalScrollableHeight, blockEnd + this.preloadSize),
         displayIndexStart = Math.floor(apertureTop / this.itemHeight),
         nonZeroIndex = Math.ceil(apertureBottom / this.itemHeight),
-        displayIndexEnd = nonZeroIndex > 0 ? nonZeroIndex - 1 : nonZeroIndex
+        displayIndexEnd = nonZeroIndex > 0 ? nonZeroIndex - 1 : nonZeroIndex,
+        activeItemsNew = this.items.slice(displayIndexStart, displayIndexEnd + 1)
+
+      if (equalArrays(this.activeItems, activeItemsNew)) {
+        return
+      }
+      this.activeItems = activeItemsNew
 
       if (displayIndexStart === this.preStart && displayIndexEnd === this.preEnd) {
         return
       }
       this.preStart = displayIndexStart
       this.preEnd = displayIndexEnd
-      this.activeItems = this.items.slice(displayIndexStart, displayIndexEnd + 1)
       this.topBufferStyle.height = displayIndexStart * this.itemHeight + 'px'
       this.bottomBufferStyle.height = Math.max(0, (this.items.length - displayIndexEnd - 1) * this.itemHeight) + 'px'
 
