@@ -1,9 +1,14 @@
 # vue-infinite-list
-infinite list based on vue2. check the [demo](https://legeneek.github.io/vue-infinite-list/index.html)
+infinite list based on vue2.
 
 ## Installation
 ```
 npm i vue-infinite-list
+```
+## demo
+
+```
+npm run start
 ```
 
 ## Basic Use
