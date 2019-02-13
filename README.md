@@ -8,52 +8,49 @@ npm i vue-infinite-list
 
 ## Basic Use
 
-### create a helper component
-
-import your custom list item component(ListItem) and your custom spinner component(LoadSpinner).
-import the mixin file you installed.
-use the mixin in helper component.
-make sure the key for 'v-for' is unique.
+import the infinite list component, pass the list item component and spinner component to infinite list component, config the props.
 
 ```vue
 <template>
-  <div :style="containerStyle" @scroll.self="handlerScroll()">
-    <div>
-      <div :style="topBufferStyle"></div>
-      <list-item v-for="item in activeItems" :key="item.id" :data="item"></list-item>
-      <load-spinner v-show="showLoading"></load-spinner>
-      <div :style="bottomBufferStyle"></div>
+  <div id="app">
+      <infinite-list @load="load" :list-item="listItem" :spinner="loadSpinner" :container-height="containerHeight" :item-height="itemHeight" :items="items" :loading="loading">
+      </infinite-list>
     </div>
-  </div>
 </template>
 
 <script>
-  import ListItem from './ListItem.vue'
-  import LoadSpinner from './LoadSpinner.vue'
-  import infiniteMix from 'vue-infinite-list'
+import ListItem from './ListItem.vue'
+import LoadSpinner from './LoadSpinner.vue'
+import InfiniteList from 'vue-infinite-list'
 
-  export default {
-    components: {
-      ListItem,
-      LoadSpinner
-    },
-    mixins: [infiniteMix],
-    data () {
-      return {
-      }
+export default {
+  components: {
+    InfiniteList
+  },
+  data() {
+    return {
+      listItem: ListItem,
+      loadSpinner: LoadSpinner
+    }
+  },
+  methods: {
+    load() {
+      //...
     }
   }
+  // ...
+}
+
 </script>
 ```
 
-### use helper component 
-
-```vue
-<helper-comp :container-height="containerHeight" :item-height="itemHeight" :items="items" blockFactor='0.5' extendFactor="1" @onInfiniteLoad="load()" :loading="loading">
-    </helper-comp>
-```
-
 ## Configuration
+
+### listItem
+the list item component
+
+### spinner
+this load spinner component
 
 ### containerHeight
 the height of the list container
@@ -62,7 +59,8 @@ the height of the list container
 the height of the item
 
 ### items
-array of list items
+array of list items.
+`list item data must contain a unique id which used as the key.`
 
 ### blockFactor
 the list is split to many blocks of the same height(blockFactor * containerHeight)
@@ -75,5 +73,5 @@ the loading status
 
 ## Event
 
-### onInfiniteLoad
+### load
 notify the parent component to load more list items

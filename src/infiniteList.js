@@ -1,4 +1,5 @@
-export default {
+const InfiniteList =  {
+  name: 'infinite-list',
   props: {
     items: Array,
     containerHeight: Number,
@@ -11,14 +12,14 @@ export default {
       type: Number,
       default: 1
     },
-    hasLoading: {
-      type: Boolean,
-      default: false
-    },
     loading: {
       type: Boolean,
       default: false
-    }
+    },
+    listItem: {
+      required: true
+    },
+    spinner: {}
   },
   data () {
     return {
@@ -71,7 +72,8 @@ export default {
     this.computeDisplayItems()
   },
   methods: {
-    handlerScroll () {
+    handlerScroll (event) {
+      if (event.target !== event.currentTarget) return
       this.computeDisplayItems()
     },
     computeDisplayItems () {
@@ -85,9 +87,6 @@ export default {
         nonZeroIndex = Math.ceil(apertureBottom / this.itemHeight),
         displayIndexEnd = nonZeroIndex > 0 ? nonZeroIndex - 1 : nonZeroIndex
 
-      if (displayIndexStart === this.preStart && displayIndexEnd === this.preEnd) {
-        return
-      }
       this.preStart = displayIndexStart
       this.preEnd = displayIndexEnd
       this.activeItems = this.items.slice(displayIndexStart, displayIndexEnd + 1)
@@ -95,8 +94,31 @@ export default {
       this.bottomBufferStyle.height = Math.max(0, (this.items.length - displayIndexEnd - 1) * this.itemHeight) + 'px'
 
       if (displayIndexEnd + 1 >= this.items.length && !this.loading) {
-        this.$emit('onInfiniteLoad')
+        this.$emit('load')
       }
     }
+  },
+  render (h) {
+    let listItems = this.activeItems.map((item) => {
+      return h(this.listItem, {props: {data: item}, key: item.id})
+    })
+    let loading = this.spinner ? h(this.spinner) : ''
+    
+    return (
+      <div style={this.containerStyle} onScroll={this.handlerScroll}>
+        <div>
+          <div style={this.topBufferStyle}></div>
+          {listItems}
+          {this.showLoading ? loading : ''}
+          <div style={this.bottomBufferStyle}></div>
+        </div>
+      </div>
+    )
   }
 }
+
+if (typeof window !== 'undefined' && window.Vue) {
+  window.Vue.component(InfiniteList.name, InfiniteList)
+}
+
+export default InfiniteList

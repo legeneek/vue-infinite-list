@@ -1,56 +1,50 @@
 <template>
   <div id="app">
-    <infinite-list :container-height="containerHeight" :item-height="itemHeight" :items="items" @onInfiniteLoad="load()" :loading="loading">
-    </infinite-list>
-  </div>
+      <infinite-list @load="load" :list-item="listItem" :spinner="loadSpinner" :container-height="containerHeight" :item-height="itemHeight" :items="items" :loading="loading">
+      </infinite-list>
+    </div>
 </template>
 
 <script>
-  import InfiniteList from './InfiniteList.vue'
+import ListItem from './ListItem.vue'
+import LoadSpinner from './LoadSpinner.vue'
+import InfiniteList from '../../src/infiniteList.js'
 
-  let base = 1
+let base = 1
 
-  export default {
-    name: 'app',
-    components: {
-      InfiniteList
-    },
-    data () {
-      return {
-        items: [],
-        containerHeight: 600,
-        itemHeight: 100,
-        loading: false
-      }
-    },
-    created () {
+export default {
+  name: 'app',
+  components: {
+    InfiniteList
+  },
+  data() {
+    return {
+      listItem: ListItem,
+      loadSpinner: LoadSpinner,
+      items: [],
+      containerHeight: 600,
+      itemHeight: 100,
+      loading: false
+    }
+  },
+  created() {
+    this.load()
+    this.$on('infinite-load', () => {
       this.load()
-    },
-    methods: {
-      load () {
-        const me = this
-        this.loading = true
+    })
+  },
+  methods: {
+    load() {
+      const me = this
+      this.loading = true
 
-        setTimeout(function(){
-          for (let i = 0; i < 20; ++i) {
-            me.items.push({id: base++})
-          }
-          me.loading = false
-        }, 200)
-      },
-      onload () {
-        this.load()
-      }
+      setTimeout(function () {
+        for (let i = 0; i < 20; ++i) {
+          me.items.push({ id: base++ })
+        }
+        me.loading = false
+      }, 200)
     }
   }
+}
 </script>
-
-<style>
-  html,body {
-    height: 100%;
-    margin: 0;
-  }
-  #app {
-    border: 2px solid #000;
-  }
-</style>
