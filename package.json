@@ -1,7 +1,7 @@
 {
   "name": "vue-infinite-list",
   "description": "vue2 infinite list",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "main": "dist/infiniteList.js",
   "author": "legeneek <legeneek@gmail.com>",
   "license": "MIT",

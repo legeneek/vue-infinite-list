@@ -8,15 +8,11 @@
 <script>
 import ListItem from './ListItem.vue'
 import LoadSpinner from './LoadSpinner.vue'
-import InfiniteList from '../../src/infiniteList.js'
 
 let base = 1
 
 export default {
   name: 'app',
-  components: {
-    InfiniteList
-  },
   data() {
     return {
       listItem: ListItem,

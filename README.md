@@ -13,7 +13,15 @@ npm run start
 
 ## Basic Use
 
-import the infinite list component, pass the list item component and spinner component to infinite list component, config the props.
+import and register the infinite list component.
+
+```vue
+import InfiniteList from 'vue-infinite-list'
+
+Vue.component(InfiniteList.name, InfiniteList)
+```
+
+use it in you app, pass the list item component and spinner component to infinite list component, config the props.
 
 ```vue
 <template>
@@ -26,12 +34,8 @@ import the infinite list component, pass the list item component and spinner com
 <script>
 import ListItem from './ListItem.vue'
 import LoadSpinner from './LoadSpinner.vue'
-import InfiniteList from 'vue-infinite-list'
 
 export default {
-  components: {
-    InfiniteList
-  },
   data() {
     return {
       listItem: ListItem,

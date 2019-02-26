@@ -117,8 +117,4 @@ const InfiniteList =  {
   }
 }
 
-if (typeof window !== 'undefined' && window.Vue) {
-  window.Vue.component(InfiniteList.name, InfiniteList)
-}
-
 export default InfiniteList
